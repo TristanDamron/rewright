@@ -1,0 +1,31 @@
+{
+  "name": "rewright",
+  "version": "0.1.0",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "scripts": {
+    "build": "bun build index.ts --outdir dist --target node --splitting --minify --external @playwright/test",
+    "pkg": "bun pm pack",
+    "docs": "bunx typedoc index.ts"
+  },
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typedoc": "^0.28.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@playwright/test": "^1.51.1"
+  }
+}
