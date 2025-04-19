@@ -1,0 +1,27 @@
+name: Package Rewright 🚢
+
+on: [push]
+
+jobs:
+    pkg-rewright:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout repo
+        uses: actions/checkout@v1
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun i
+
+      - name: Build Rewright
+        run: bun run pkg
+
+      - name: Archive Rewright
+        uses: actions/upload-artifact@v4
+        with:
+          name: rewright
+          path: ./dist/
+
