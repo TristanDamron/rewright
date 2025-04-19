@@ -1,0 +1,27 @@
+name: Generate Rewright Docs 📖
+
+on: [push]
+
+jobs:
+    generate-docs:
+      runs-on: ubuntu-latest
+
+      steps:
+      - name: Checkout repo
+        uses: actions/checkout@v1
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun i
+
+      - name: Build docs
+        run: bun run docs
+
+      - name: Archive docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: rewright-docs
+          path: ./docs/
+
