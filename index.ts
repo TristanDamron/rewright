@@ -34,3 +34,26 @@ export function useState(name: string, defaultValue: any): [Function, Function] 
     }];
 }
 
+/**
+ * A function that triggers a callback event if a state dependency changes.
+ * @param {Function} callback - the callback event to trigger.
+ * @param {Array<string>} dependencies - the names of the state values to watch.
+ */
+export function useEffect(callback: Function, dependencies: Array<string>): any {
+    if (dependencies.length === 0)
+        callback();
+
+    const stateDependencies = dependencies.map((name) => {
+        return {name, "value": Store.state[name]};
+    });
+
+    setInterval((prevDependencies) => {
+        prevDependencies.forEach((state) => {
+            if (state.value !== Store.state[state.name]) {
+                callback();
+                state.value = Store.state[state.name];
+            }
+        })
+    }, 0.0000001, stateDependencies);
+}
+
