@@ -5,8 +5,9 @@
   "types": "./dist/index.d.ts",
   "type": "module",
   "scripts": {
-    "build": "bun build index.ts --outdir dist --target node --splitting --minify --external @playwright/test",
-    "pkg": "bun pm pack",
+    "build": "bun build index.ts --outdir dist --target node --splitting --minify --external @playwright/test && bunx tsc index.ts --declaration --emitDeclarationOnly --outDir ./dist/types",
+    "pkg": "bun run build && bun pm pack",
+    "test": "bun run build && bunx playwright test ./playwright-tests/ && bun test tests/*.test.ts",
     "docs": "bunx typedoc index.ts"
   },
   "files": [
