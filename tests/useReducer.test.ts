@@ -29,7 +29,7 @@ describe("useReducer", () => {
     });
 
     it("can apply unique logic to a state created using useState", () => {
-        const [getter, _setter] = useState("test", "Hello");
+        const [getter, _setter] = useState("test", "Hello"); // eslint-disable-line no-unused-vars
         const [_getter, setter] = useReducer("test", () => {
             return `${_getter()}, Rewright!`;
         });
