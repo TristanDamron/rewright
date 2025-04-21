@@ -29,7 +29,7 @@ export type State = Record<string, any>;
  * ```
  */
 export const test = base.extend<{ state: State }>({
-  state: async ({}, use) => {
+  state: async ({}, use) => { // eslint-disable-line no-empty-pattern
     const state = Store.state;
     await use(state);
   },
@@ -61,7 +61,7 @@ export function useState(name: string, defaultValue?: any): [Function, Function]
 /**
  * A function that triggers a callback event if a state dependency changes.
  * @param {Function} callback - the callback event to trigger.
- * @param {Array<string>} dependencies - the names of the state values to watch.
+ * @param {string[]} dependencies - the names of the state values to watch.
  *
  * @example
  * ```ts
@@ -80,7 +80,7 @@ export function useState(name: string, defaultValue?: any): [Function, Function]
  * }
  * ```
  */
-export function useEffect(callback: Function, dependencies: Array<string>): any {
+export function useEffect(callback: Function, dependencies: string[]): any {
     if (dependencies.length === 0)
         callback();
 

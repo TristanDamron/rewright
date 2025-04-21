@@ -8,7 +8,9 @@
     "build": "bun build index.ts --outdir dist --target node --splitting --minify --external @playwright/test && bunx tsc index.ts --declaration --emitDeclarationOnly --outDir ./dist/types",
     "pkg": "bun run build && bun pm pack",
     "test": "bun run build && bunx playwright test ./playwright-tests/ && bun test tests/*.test.ts",
-    "docs": "bunx typedoc index.ts"
+    "docs": "bunx typedoc index.ts",
+    "lint": "bunx eslint index.ts && bunx eslint tests && bunx eslint playwright-tests",
+    "format": "bunx eslint index.ts --fix && bunx eslint tests --fix && bunx eslint playwright-tests --fix"
   },
   "files": [
     "dist"
@@ -21,6 +23,9 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "@playwright/test": "^1.51.1"
+    "@eslint/js": "^9.25.0",
+    "@playwright/test": "^1.51.1",
+    "eslint": "^9.25.0",
+    "typescript-eslint": "^8.30.1"
   }
 }
