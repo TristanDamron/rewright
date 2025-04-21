@@ -98,3 +98,35 @@ export function useEffect(callback: Function, dependencies: string[]): any {
     }, 0.0000001, stateDependencies);
 }
 
+
+/**
+ * A function for managing state, similar to useState.
+ * This function takes a reducer function, applying unique logic when setting the value of the managed state.
+ * The callback function triggered by this function processes an optional `action` parameter, allowing you to
+ * pass in values which influnce your reducer's update logic.
+ * The managed state is globally available.
+ * @param {string} name - the name of the state to be managed.
+ * @param {Function} callback - the callback function to trigger when setting the value of the state.
+ * @param {any} defaultValue - optional; the default value of the state.
+ * @returns A getter and setter function for the managed state.
+ *
+ * @example
+ * ```ts
+ * function foo() {
+ *      const [getCounter, incCounter] = useReducer("counter", (incrementBy: number) => {
+ *          return getCounter() + incrementBy;
+ *      }, 2);
+ *
+ *      incCounter(1); // Increments 'counter' by 1, counter = 3
+ * }
+ * ```
+ */
+export function useReducer(name: string, callback: Function, defaultValue?: any): [Function, Function] {
+    if (defaultValue)
+        Store.state[name] = defaultValue;
+
+    return [() => { return Store.state[name] }, (action: any) => {
+        Store.state[name] = callback(action);
+    }];
+}
+
