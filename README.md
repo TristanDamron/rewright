@@ -5,6 +5,7 @@
 ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
 ![Test Status](https://github.com/tristandamron/rewright/actions/workflows/test.yml/badge.svg)
 ![Build Status](https://github.com/tristandamron/rewright/actions/workflows/pkg.yml/badge.svg)
+![Lint Status](https://github.com/tristandamron/rewright/actions/workflows/lint.yml/badge.svg)
 ![Proudly made without AI](https://img.shields.io/badge/Proudly%20made%20without%20generative%20AI-orange)
 
 # Welcome to Rewright!

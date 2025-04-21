@@ -3,7 +3,7 @@ import { describe, it, expect } from "bun:test";
 
 describe("useState", () => {
     it("can initialize a state value with a default value", () => {
-        const [getter, _setter] = useState("test", true);
+        const [getter, _setter] = useState("test", true); // eslint-disable-line no-unused-vars
         expect(getter()).toBe(true);
     });
 
@@ -14,14 +14,14 @@ describe("useState", () => {
     });
 
     it("can capture an existing state value", () => {
-        const [_getter, _setter] = useState("test", true);
-        const [getter, __setter] = useState("test");
+        const [_getter, _setter] = useState("test", true); // eslint-disable-line no-unused-vars
+        const [getter, __setter] = useState("test"); // eslint-disable-line no-unused-vars
         expect(getter()).toBe(true);
     });
 
     it("cannot override an existing state value", () => {
-        const [_getter, _setter] = useState("test", true);
-        const [getter, __setter] = useState("test", false);
+        const [_getter, _setter] = useState("test", true); // eslint-disable-line no-unused-vars
+        const [getter, __setter] = useState("test", false); // eslint-disable-line no-unused-vars
         expect(getter()).toBe(true);
     });
 });
