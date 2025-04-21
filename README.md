@@ -1,4 +1,4 @@
-![Rewright Logo](./brand/rewright-logo.svg)
+![Rewright Logo](https://raw.githubusercontent.com/TristanDamron/rewright/refs/heads/main/brand/rewright-logo.svg)
 
 ![Bun](https://img.shields.io/badge/bun-282a36?style=for-the-badge&logo=bun&logoColor=fbf0df)
 ![Playwright](https://img.shields.io/badge/Playwright-45ba4b?style=for-the-badge&logo=Playwright&logoColor=white)
