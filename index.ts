@@ -3,7 +3,7 @@ import { test as base } from '@playwright/test';
 /**
  * A type for a reducer callback function.
  */
-export type ReducerCallback = (action?: any) => any;
+export type ReducerCallback = (action?: any) => any; // eslint-disable-line no-unused-vars
 
 /**
  * A type for a stateful getter function.
@@ -13,7 +13,7 @@ export type StateGetter = () => any;
 /**
  * A type for a stateful setter function.
  */
-export type StateSetter = (newValue: any) => void;
+export type StateSetter = (newValue: any) => void; // eslint-disable-line no-unused-vars
 
 /**
  * A type for an effect callback function.
@@ -21,9 +21,9 @@ export type StateSetter = (newValue: any) => void;
 export type EffectCallback = () => void;
 
 /**
- * A type for a Rewright stateful object.
+ * An interface for a Rewright stateful object.
  */
-export type State = { name: string, value: any };
+export interface State { name: string, value: any };
 
 class GlobalStore {
     static state: Record<string, State> = {};

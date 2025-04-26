@@ -10,7 +10,7 @@ describe("createStore", () => {
             }
         ]);
 
-        const [getter, _setter] = useState("myState");
+        const [getter, _setter] = useState("myState"); // eslint-disable-line no-unused-vars
         expect(getter()).toBe(true);
     });
 
@@ -26,9 +26,9 @@ describe("createStore", () => {
             }
         ]);
 
-        const [getter, _setter] = useState("myState");
+        const [getter, _setter] = useState("myState"); // eslint-disable-line no-unused-vars
         expect(getter()).toBe(true);
-        const [_getter, __setter] = useState("yourState");
+        const [_getter, __setter] = useState("yourState"); // eslint-disable-line no-unused-vars
         expect(_getter()).toBe(false);
     });
 });
