@@ -2,7 +2,7 @@
   "name": "rewright",
   "version": "1.0.0",
   "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/index.d.ts",
   "type": "module",
   "scripts": {
     "build": "bun build index.ts --outdir dist --target node --splitting --minify --external @playwright/test && bunx tsc index.ts --declaration --emitDeclarationOnly --outDir ./dist/types",
