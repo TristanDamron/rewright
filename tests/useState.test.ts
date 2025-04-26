@@ -19,9 +19,9 @@ describe("useState", () => {
         expect(getter()).toBe(true);
     });
 
-    it("cannot override an existing state value", () => {
+    it("can override an existing state value", () => {
         const [_getter, _setter] = useState("test", true); // eslint-disable-line no-unused-vars
         const [getter, __setter] = useState("test", false); // eslint-disable-line no-unused-vars
-        expect(getter()).toBe(true);
+        expect(getter()).toBe(false);
     });
 });

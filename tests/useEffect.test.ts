@@ -1,4 +1,4 @@
-import { useEffect, useState } from "..";
+import { useEffect, useState } from "../index";
 import { describe, it, expect } from "bun:test";
 
 describe("useEffect", () => {
@@ -9,7 +9,7 @@ describe("useEffect", () => {
             triggered = true;
         }, ["test"]);
 
-        setter!(false);
+        setter!(true);
         await new Promise((r) => setTimeout(r, 1));
         expect(triggered).toBe(true);
     });
@@ -31,7 +31,7 @@ describe("useEffect", () => {
             triggered = true;
         }, ["test", "test2"]);
 
-        setter!(false);
+        setter!(true);
         await new Promise((r) => setTimeout(r, 1));
         expect(triggered).toBe(true);
     });
