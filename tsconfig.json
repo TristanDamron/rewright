@@ -9,6 +9,7 @@
     "allowJs": true,
     "declaration": true,
     "declarationMap": true,
+    "experimentalDecorators": true,
 
     // Bundler mode
     "moduleResolution": "bundler",
