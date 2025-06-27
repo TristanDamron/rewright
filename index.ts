@@ -21,6 +21,11 @@ export type StateSetter = (newValue: any) => void; // eslint-disable-line no-unu
 export type EffectCallback = () => void;
 
 /**
+ * A type for a class override callback function.
+ */
+export type ClassOverride = (...args: any[]) => Record<string, any> // eslint-disable-line
+
+/**
  * An interface for a Rewright stateful object.
  */
 export interface State { name: string, value: any };
@@ -36,9 +41,6 @@ class GlobalStore {
  *
  * @example
  * ```ts
- * import { test } from "rewright";
- * import { expect } from "playwright/test";
- *
  * test("Search for query", async ({ page, state }) => {
  *      const googlePOM = new GooglePOM(page);
  *      state.searchQuery = {name: "searchQuery", value: "Cute cat memes" };
@@ -50,8 +52,7 @@ class GlobalStore {
  */
 export const test = base.extend<{ state: Record<string, State> }>({
   state: async ({}, use) => { // eslint-disable-line no-empty-pattern
-    const state = GlobalStore.state;
-    await use(state);
+    await use(GlobalStore.state);
   },
 });
 
@@ -85,8 +86,6 @@ export function useState(name: string, defaultValue?: any): [StateGetter, StateS
  *
  * @example
  * ```ts
- * import { useState, useEffect } from "rewright";
- *
  * class GooglePOM {
  *      protected setSearchQuery;
  *      protected getSearchQuery;
@@ -181,3 +180,43 @@ export function createStore(
     }
 }
 
+
+/**
+ * A class decorator for changing a class instance based on a state value.
+ * This decorator can be useful for applications with lots of feature flags. Using the `@state` decorator allows you
+ * to define POMs whose definitions react to changed based on whether a flag is on or off.
+ *
+ * @param {string} name - the name of the stateful object to check.
+ * @param {any} value - the value of the stateful object to check.
+ * @param {ClassOverride} classOverrides - the properties and methods you want to override into this class if the stateful object check passes.
+ *
+ * @example
+ * ```ts
+ * @state("ff-NewHomePg", true, (page: Page) => {
+ *      return {
+ *          loginButton: page.locator("#new-login-btn")
+ *      } 
+ * })
+ * class HomePage {
+ *      readonly loginButton: Locator;
+ *      constructor(page: Page) {
+ *          this.loginButton = page.locator("#old-login-btn");
+ *      } 
+ * }
+ * ```
+ */
+export function state(name: string, value: any, classOverrides: ClassOverride) {
+    return function <T extends { new(...args: any[]): {} }>(constructor: T) { // eslint-disable-line
+        return class extends constructor {
+            constructor(...args: any[]) {
+                super(...args);
+                if (GlobalStore.state[name]?.value === value) {
+                    const overrides = classOverrides(...args);
+                    for (const override in overrides) {
+                        (this as any)[override] = overrides[override];
+                    }
+                }
+            }
+        };
+    };
+}
