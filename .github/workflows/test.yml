@@ -16,6 +16,9 @@ jobs:
       - name: Install dependencies
         run: bun i
 
+      - name: Install PW Browsers
+        run: bunx playwright install --with-deps
+
       - name: Run automated tests
         run: bun run test
 
