@@ -16,7 +16,7 @@ class SomePOM {
     readonly setTest: StateSetter;
     readonly truthy: boolean;
 
-    constructor(protected page: Page) {
+    constructor(protected page: Page) { // eslint-disable-line
         this.truthy = false;
         [this.getTest, this.setTest] = useState("test");
     }

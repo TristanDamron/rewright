@@ -23,7 +23,7 @@ export type EffectCallback = () => void;
 /**
  * A type for a class override callback function.
  */
-export type ClassOverride = (...args: any[]) => Record<string, any>
+export type ClassOverride = (...args: any[]) => Record<string, any> // eslint-disable-line
 
 /**
  * An interface for a Rewright stateful object.
@@ -206,7 +206,7 @@ export function createStore(
  * ```
  */
 export function state(name: string, value: any, classOverrides: ClassOverride) {
-    return function <T extends { new(...args: any[]): {} }>(constructor: T) {
+    return function <T extends { new(...args: any[]): {} }>(constructor: T) { // eslint-disable-line
         return class extends constructor {
             constructor(...args: any[]) {
                 super(...args);
