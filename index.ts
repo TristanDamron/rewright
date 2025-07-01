@@ -23,15 +23,42 @@ export type EffectCallback = () => void;
 /**
  * A type for a class override callback function.
  */
-export type ClassOverride = (...args: any[]) => Record<string, any> // eslint-disable-line
+export type ClassOverride = (...args: any[]) => Record<string, any>; // eslint-disable-line
 
 /**
- * An interface for a Rewright stateful object.
+ * A class for a Rewright stateful object.
  */
-export interface State { name: string, value: any };
+export class State extends EventTarget {  
+    public name: string;
+    public _value: any;
+
+    constructor(name: string, value: any) {
+        super()
+        this.name = name;
+        this._value = value;
+    }
+
+    public set value(newValue: any) {
+        this.dispatchEvent(new StateChangeEvent(this));
+        this._value = newValue;
+    }
+
+    public get value(): any {
+        return this._value;
+    }
+};
 
 class GlobalStore {
     static state: Record<string, State> = {};
+}
+
+class StateChangeEvent extends Event {
+    public state: State;
+
+    constructor(state: State) {
+        super("stateChange");
+        this.state = state;
+    }
 }
 
 /**
@@ -72,10 +99,10 @@ export const test = base.extend<{ state: Record<string, State> }>({
  */
 export function useState(name: string, defaultValue?: any): [StateGetter, StateSetter] {
     if (defaultValue !== undefined)
-        GlobalStore.state[name] = { name, value: defaultValue };
+        GlobalStore.state[name] = new State(name, defaultValue);
 
     return [() => { return GlobalStore.state[name]!.value }, (newValue: any) => {
-        GlobalStore.state[name] = { name, value: newValue };
+        GlobalStore.state[name]!.value = newValue;
     }];
 }
 
@@ -103,18 +130,11 @@ export function useEffect(callback: EffectCallback, dependencies: string[]): voi
     if (dependencies.length === 0)
         callback();
 
-    const stateDependencies = dependencies.map((name) => {
-        return {name, "value": GlobalStore.state[name]!.value};
-    });
-
-    setInterval((prevDependencies) => {
-        prevDependencies.forEach((state) => {
-            if (state.value !== GlobalStore.state[state.name]!.value) {
-                callback();
-                state.value = GlobalStore.state[state.name]!.value;
-            }
-        })
-    }, 0.0000001, stateDependencies);
+    for (const dependency of dependencies) {
+        GlobalStore.state[dependency]?.addEventListener("stateChange", () => {
+            callback();
+        });
+    }
 }
 
 /**
@@ -141,13 +161,10 @@ export function useEffect(callback: EffectCallback, dependencies: string[]): voi
  */
 export function useReducer(name: string, callback: ReducerCallback, defaultValue?: any): [StateGetter, ReducerCallback] {
     if (defaultValue)
-        GlobalStore.state[name] = { name, value: defaultValue };
+        GlobalStore.state[name] =  new State(name, defaultValue);
 
     return [() => { return GlobalStore.state[name]!.value }, (action: any) => {
-        GlobalStore.state[name] = {
-            name,
-            value: callback(action),
-        };
+        GlobalStore.state[name]!.value = callback(action);
     }];
 }
 
