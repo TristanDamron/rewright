@@ -1,13 +1,10 @@
-import { createStore, useState } from "../index";
+import { createStore, State, useState } from "../index";
 import { describe, it, expect } from "bun:test";
 
 describe("createStore", () => {
     it("can load a state value into the global store", () => {
         createStore([
-            {
-                name: "myState",
-                value: true,
-            }
+            new State("myState", true)
         ]);
 
         const [getter, _setter] = useState("myState"); // eslint-disable-line no-unused-vars
@@ -16,14 +13,8 @@ describe("createStore", () => {
 
     it("can load multiple state values into the global store", () => {
         createStore([
-            {
-                name: "myState",
-                value: true,
-            },
-            {
-                name: "yourState",
-                value: false,
-            }
+            new State("myState", true), 
+            new State("yourState", false)
         ]);
 
         const [getter, _setter] = useState("myState"); // eslint-disable-line no-unused-vars
@@ -32,4 +23,3 @@ describe("createStore", () => {
         expect(_getter()).toBe(false);
     });
 });
-
