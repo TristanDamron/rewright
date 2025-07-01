@@ -27,6 +27,9 @@ export type ClassOverride = (...args: any[]) => Record<string, any>; // eslint-d
 
 /**
  * A class for a Rewright stateful object.
+ * A State primarily consists of a name and value. The class extends EventTarget, allowing it to react to synthetic events.
+ * 
+ * @class
  */
 export class State extends EventTarget {  
     public name: string;
