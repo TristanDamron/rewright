@@ -22,4 +22,25 @@ describe("createStore", () => {
         const [_getter, __setter] = useState("yourState"); // eslint-disable-line no-unused-vars
         expect(_getter()).toBe(false);
     });
+
+    it("can append a state value to the global store", () => { 
+        const [_getter, _setter] = useState("myState", false); // eslint-disable-line no-unused-vars
+
+        createStore([
+            new State("yourState", true)
+        ]);
+
+        const [getter, __setter] = useState("yourState"); // eslint-disable-line no-unused-vars
+        expect(getter()).toBe(true);
+    });
+
+    it("can override a state value in the global store", () => { 
+        const [getter, _setter] = useState("myState", false); // eslint-disable-line no-unused-vars
+
+        createStore([
+            new State("myState", true)
+        ]);
+
+        expect(getter()).toBe(true);
+    });
 });
