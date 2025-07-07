@@ -73,7 +73,7 @@ class StateChangeEvent extends Event {
  * ```ts
  * test("Search for query", async ({ page, state }) => {
  *      const googlePOM = new GooglePOM(page);
- *      state.searchQuery = {name: "searchQuery", value: "Cute cat memes" };
+ *      state.searchQuery = new State("searchQuery", "Cute cat memes");
  *      await page.goto("https://google.com");
  *      await googlePOM.searchFor(state.searchQuery.value);
  *      await expect(googlePOM.searchBox).toContainText(state.searchQuery.value);
@@ -97,6 +97,8 @@ export const test = base.extend<{ state: Record<string, State> }>({
  * ```ts
  * function foo() {
  *      const [getMyState, setMyState] = useState("myState", false);
+ *      setMyState(true); // This will set the state to true
+ *      getMyState(); // This will return true
  * }
  * ```
  */
@@ -181,14 +183,8 @@ export function useReducer(name: string, callback: ReducerCallback, defaultValue
  * @example
  * ```ts
  * createStore([
- *     {
- *         name: "foo",
- *         value: true,
- *     },
- *     {
- *         name: "bar",
- *         value: false,
- *     }
+ *     new State("foo", true),
+ *     new State("bar", false),
  *]);
  * ```
  */
