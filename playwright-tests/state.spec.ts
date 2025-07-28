@@ -11,6 +11,20 @@ import { useState } from "../index.ts";
         "testTruthy": () => { return "Hello world!" },
     }
 })
+@state("arrayTest", true, (page: Page) => {
+    return {
+        "truthy": true,
+        "locator": page.locator("test"),
+        "testTruthy": () => { return "Hello world!" },
+    }
+})
+@state("arrayToArrayTest", [false, true], (page: Page) => {
+    return {
+        "truthy": true,
+        "locator": page.locator("test"),
+        "testTruthy": () => { return "Hello world!" },
+    }
+})
 class SomePOM {
     readonly getTest: StateGetter;
     readonly setTest: StateSetter;
@@ -67,5 +81,17 @@ test.describe("state fixtures in a playwright test", () => {
         state.test = new State("test", true);
         state.test.value = false;
         expect(somePom.getTruthy()).toBe(false);
+    });
+
+    test("performs a partial check for arrays", ({ state, page }) => {
+        state.test = new State("arrayTest", [false, false, true]);
+        const somePom = new SomePOM(page);
+        expect(somePom.getTruthy()).toBe(true);
+    });
+
+    test("performs a partial check for arrays against another array", ({ state, page }) => {
+        state.test = new State("arrayTest", [true, false, "bob"]);
+        const somePom = new SomePOM(page);
+        expect(somePom.getTruthy()).toBe(true);
     });
 });

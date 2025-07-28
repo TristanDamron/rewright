@@ -226,7 +226,11 @@ export function state(name: string, value: any, classOverrides: ClassOverride) {
         return class extends constructor {
             constructor(...args: any[]) {
                 super(...args);
-                if (GlobalStore.state[name]?.value === value) {
+                if (
+                    (Array.isArray(GlobalStore.state[name]?.value) && GlobalStore.state[name]?.value.includes(value))
+                    || (Array.isArray(GlobalStore.state[name]?.value) && Array.isArray(value) && GlobalStore.state[name]?.value.some(val => value.includes(val)))
+                    || GlobalStore.state[name]?.value === value
+                ) {
                     const overrides = classOverrides(...args);
                     for (const override in overrides) {
                         (this as any)[override] = overrides[override];
